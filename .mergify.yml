@@ -1,0 +1,19 @@
+# Ensaio: mesma forma da fila real do publi-tech (dois passos, lote, merge), reduzida a um check `prova`.
+merge_queue:
+  max_parallel_checks: 2
+  mode: serial
+
+queue_rules:
+  - name: main
+    queue_conditions:
+      - base = main
+      - label != segurar
+      - check-success = prova
+    merge_conditions:
+      - label != segurar
+      - check-success = prova
+    merge_method: merge
+    update_method: merge
+    batch_size: 2
+    batch_max_wait_time: 1 min
+    checks_timeout: 15 min
